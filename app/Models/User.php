@@ -16,6 +16,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'points'
     ];
 
     protected $hidden = [
@@ -32,6 +33,27 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function pointsTransactions()
+    {
+        return $this->hasMany(PointsTransaction::class);
+    }
 
+    // تحديث النقاط وإنشاء سجل لها
+    public function updatePoints($points, $reason, $related = null)
+    {
+        $this->increment('points', $points);
+
+        $transaction = new PointsTransaction([
+            'points_change' => $points,
+            'reason' => $reason,
+        ]);
+
+        if ($related) {
+            $transaction->related_id = $related->id;
+            $transaction->related_type = get_class($related);
+        }
+
+        $this->pointsTransactions()->save($transaction);
+    }
 
 }

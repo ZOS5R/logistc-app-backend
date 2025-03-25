@@ -44,7 +44,7 @@ class UserJobInfoController extends Controller
 
         // Validate input
         $request->validate([
-            'basic_salary' => 'required|numeric',
+            'basic_salary' => 'nullable|numeric',
             'direct_manger_id' => [
                 'required',
                 'exists:users,id',
@@ -55,9 +55,9 @@ class UserJobInfoController extends Controller
                     }
                 }
             ],
-            'employemnt_date' => 'required|date',
-            'years_of_service' => 'required|integer|min:0',
-            'department' => 'required|string|max:255',
+            'employemnt_date' => 'nullable|date',
+            'years_of_service' => 'nullable|integer|min:0',
+            'department' => 'nullable|string|max:255',
         ]);
 
         // Check if job info exists

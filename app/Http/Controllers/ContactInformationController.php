@@ -1,13 +1,13 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\UserInformation;
-use App\Models\User;
+use App\Models\ContactInformation;
+ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class UserInformationController extends Controller
+class ContactInformationController extends Controller
 {
     // Display a listing of the resource
     public function index(Request $request)
@@ -21,10 +21,10 @@ class UserInformationController extends Controller
             $userId = $authUser->id; // Otherwise, use the authenticated user's ID
         }
 
-        $userInformations = UserInformation::where('user_id', $userId)->get();
+        $userInformations = ContactInformation::where('user_id', $userId)->get();
 
         if ($userInformations->isEmpty()) {
-            return response()->json(['message' => 'No user information found. Please set your information.'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'No Conatact Information found. Please set your information.'], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json($userInformations, Response::HTTP_OK);
@@ -43,17 +43,13 @@ class UserInformationController extends Controller
         }
 
         $request->validate([
-            'full_name' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'position' => 'nullable|string|max:255',
-            'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female',
-            'nationality' => 'nullable|string|max:255',
-            'marital_status' => 'nullable|string|max:255',
-        ]);
+            'phone_number' => 'nullable|string|max:255',
+            'name' =>'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+         ]);
 
         // Check if user information already exists
-        $userInformation = UserInformation::where('user_id', $userId)->first();
+        $userInformation = ContactInformation::where('user_id', $userId)->first();
 
         $data = $request->except('image');
         $data['user_id'] = $userId;
@@ -70,12 +66,12 @@ class UserInformationController extends Controller
             return response()->json($userInformation, Response::HTTP_OK);
         }
 
-        $userInformation = UserInformation::create($data);
+        $userInformation = ContactInformation::create($data);
         return response()->json($userInformation, Response::HTTP_CREATED);
     }
 
     // Show a user's information
-    public function show(Request $request, UserInformation $userInformation)
+    public function show(Request $request, ContactInformation $userInformation)
     {
         $authUser = Auth::user();
 
@@ -87,7 +83,7 @@ class UserInformationController extends Controller
     }
 
     // Update a user's information
-    public function update(Request $request, UserInformation $userInformation)
+    public function update(Request $request, ContactInformation $userInformation)
     {
         $authUser = Auth::user();
 
@@ -130,7 +126,7 @@ class UserInformationController extends Controller
     }
 
     // Delete a user's information
-    public function destroy(Request $request, UserInformation $userInformation)
+    public function destroy(Request $request, ContactInformation $userInformation)
     {
         $authUser = Auth::user();
 

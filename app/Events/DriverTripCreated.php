@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\DriverTrip;
+use App\Models\Trip;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -16,7 +17,7 @@ class DriverTripCreated implements ShouldBroadcast
 
     public $driverTrip;
 
-    public function __construct(DriverTrip $driverTrip)
+    public function __construct(Trip $driverTrip)
     {
         $this->driverTrip = $driverTrip;
     }

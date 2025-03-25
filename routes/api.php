@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserInformationController;
 use App\Http\Controllers\UserJobInfoController;
 use App\Http\Controllers\AttendanceRecordController;
-
+use App\Http\Controllers\TripController;
 use App\Http\Controllers\ContactInformationController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\RequestController;
@@ -80,7 +80,12 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::get('/user_redemptions_with_points', [RedemptionController::class, 'getUserRedemptionsWithPoints']);
 
+Route::middleware('auth:sanctum')->group(function () {
 
 
-Route::post('/driver-trips', [DriverTripController::class, 'store']);
-Route::patch('/driver-trips/{id}/status', [DriverTripController::class, 'updateStatus']);
+    Route::get('/driver/trips', [TripController::class, 'index']);
+    Route::post('/driver/trips', [TripController::class, 'store']);
+    Route::get('/driver/trips/{id}', [TripController::class, 'show']);
+    Route::put('/trips/{id}', [TripController::class, 'update']);
+    Route::delete('/trips/{id}', [TripController::class, 'destroy']);
+});
